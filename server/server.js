@@ -15,7 +15,29 @@ var io = socketIO(server);
 app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
-   console.log('New user connected!'); 
+    console.log('New user connected!'); 
+    
+    // kvieciame front ende defininta eventa
+    // matome CMD 
+    socket.emit('newEmail', {
+        from: 'rokas@gmail.com',
+        text: 'Hey. what is going on',
+        createAt: 123
+    });
+    
+    socket.emit('newMessage', {
+        createdAt: '2018-08-12',
+        from: 'Joshua',
+        text: 'Want some cocaine?'
+    });
+    
+    socket.on('createMessage', (data) => {
+       console.log('createMessage', data);
+    });
+    
+    socket.on('createEmail', (newEmail) => {
+       console.log('createEmail', newEmail); 
+    });
     
     socket.on('disconnect', () => {
        console.log('The user has disconnected!');

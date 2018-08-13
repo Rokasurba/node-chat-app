@@ -9,18 +9,7 @@
     <p> welcome to the Rokas chat app</p>
     
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var socket = io();
-        
-        // sukuriame eventus cliento puseje, kurie klausosi, siuncia request i serverio puse
-        socket.on('connect', () => {
-           console.log('Connected to server'); 
-        });
-        
-        socket.on('disconnect', () => {
-            console.log('Server was to shutdown!');
-        });
-    </script>
+    <script src="/js/js.js"></script>
 </body>
 
 </html>
