@@ -4,16 +4,6 @@ var socket = io();
 // sukuriame eventus cliento puseje, kurie klausosi, siuncia request i serverio puse
 socket.on('connect', function () {
    console.log('Connected to server'); 
-    
-    socket.emit('createEmail', {
-       to: 'rokas@gmail.com',
-       text: 'Hey, tai as Rokas!'
-    });
-    
-    socket.emit('createMessage', {
-      from: 'mantas',
-      text: 'kas per velnias? I dont need no cocaine!'
-    });
 });
 
 socket.on('disconnect', function () {

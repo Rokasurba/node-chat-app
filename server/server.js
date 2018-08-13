@@ -19,20 +19,20 @@ io.on('connection', (socket) => {
     
     // kvieciame front ende defininta eventa
     // matome CMD 
-    socket.emit('newEmail', {
-        from: 'rokas@gmail.com',
-        text: 'Hey. what is going on',
-        createAt: 123
-    });
-    
-    socket.emit('newMessage', {
-        createdAt: '2018-08-12',
-        from: 'Joshua',
-        text: 'Want some cocaine?'
-    });
+//    socket.emit('newEmail', {
+//        from: 'rokas@gmail.com',
+//        text: 'Hey. what is going on',
+//        createAt: 123
+//    });
     
     socket.on('createMessage', (data) => {
        console.log('createMessage', data);
+        // emits event to all connections
+        io.emit('newMessage', {
+           from: data.from,
+            text: data.text,
+            createdAt: new Date().getTime()
+        });
     });
     
     socket.on('createEmail', (newEmail) => {
