@@ -3,6 +3,7 @@ const express = require('express');
 const http = require('http');
 const socketIO =  require('socket.io');
 
+const {generateMessage} = require('./utils/message.js');
 // taip darome, kad butu patogiau nurodyti path i public folderi
 const publicPath = path.join(__dirname, '../public');
 
@@ -16,28 +17,19 @@ app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
     console.log('New user connected!'); 
-    
-    
-    socket.emit('newMessage', {
-       from: 'Admin',
-        text: 'Welcome to the chat app',
-        createdAt: new Date().getTime()
-    });
-    
-    socket.broadcast.emit('newMessage', {
-       from: 'Admin',
-        text: 'New user joined',
-        createdAt: new Date().getTime()
-    });
-    
+
+    socket.emit('newMessage', generateMessage('Rokas', 'Welcome to the Rokas chat app'));
+
+    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined the channel'));
+
     // kvieciame front ende defininta eventa
     // matome CMD 
-//    socket.emit('newEmail', {
-//        from: 'rokas@gmail.com',
-//        text: 'Hey. what is going on',
-//        createAt: 123
-//    });
-    
+    //    socket.emit('newEmail', {
+    //        from: 'rokas@gmail.com',
+    //        text: 'Hey. what is going on',
+    //        createAt: 123
+    //    });
+
     socket.on('createMessage', (data) => {
        console.log('createMessage', data);
         // emits event to all connections
@@ -47,22 +39,18 @@ io.on('connection', (socket) => {
             createdAt: new Date().getTime()
         });*/
         // pranesima apie praenisma gaus visi bet ne as
-        socket.broadcast.emit('newMessage', {
-           from: data.from, 
-            text: data.text,
-            createdAt: new Date().getTime()
-        });
+        socket.broadcast.emit('newMessage', generateMessage(data.from, data.text));
     });
-    
+
     socket.on('createEmail', (newEmail) => {
        console.log('createEmail', newEmail); 
     });
-    
+
     socket.on('disconnect', () => {
        console.log('The user has disconnected!');
     });
 });
-
+    
 const port = process.env.PORT || 3000;
 
 server.listen(port, () => {
