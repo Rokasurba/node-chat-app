@@ -17,4 +17,21 @@ socket.on('newEmail', function (data) {
 
 socket.on('newMessage', function(data) {
    console.log(data); 
+    var li = $('<li></li>');
+    li.text(`${data.from}: ${data.text}`);
+    
+    $('#messages').append(li);
+});
+
+// emitinam eventa serveryje ir gauname is jo callbacka
+
+$('#message-form').on('submit', function (e) {
+   e.preventDefault();  
+    console.log('Thi dadaskdas');
+    socket.emit('createMessage', {
+       from: 'User',
+        text: $('[name=message]').val()
+    }, function () {
+        
+    });
 });

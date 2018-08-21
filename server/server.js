@@ -30,16 +30,17 @@ io.on('connection', (socket) => {
     //        createAt: 123
     //    });
 
-    socket.on('createMessage', (data) => {
+    socket.on('createMessage', (data, callback) => {
        console.log('createMessage', data);
-        // emits event to all connections
-        /*io.emit('newMessage', {
+        // pranesima, info gauna visi prisijunge useriai
+        io.emit('newMessage', {
            from: data.from,
             text: data.text,
             createdAt: new Date().getTime()
-        });*/
+        });
         // pranesima apie praenisma gaus visi bet ne as
-        socket.broadcast.emit('newMessage', generateMessage(data.from, data.text));
+        /*socket.broadcast.emit('newMessage',                     generateMessage(data.from, data.text));
+        callback('This is from the server');*/
     });
 
     socket.on('createEmail', (newEmail) => {
